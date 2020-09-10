@@ -2,7 +2,7 @@
 
 ## Description
 
-This app made for laundry company to manage all transaction and make more productive.
+This app made for laundry company to easily manage their transactions and make more productive.
 
 ## Pattern
 
@@ -10,27 +10,27 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 
 ## libraries in this app
 
-* Firebase library (Firebase) <https://firebase.flutter.dev/>
-* Make simplest way navigation flutter (GetX) <https://pub.dev/packages/get>
-* Handle http request (HTTP) <https://pub.dev/packages/http>
-* Local storage to save services data from network (Flutter Secure Storage) <https://pub.dev/packages/flutter_secure_storage>
-* Load svg file (Flutter SVG) <https://pub.dev/packages/flutter_svg>
-* Number format (intl) <https://pub.dev/packages/intl>
-* Flutter model (Json Serialization) <https://flutter.dev/docs/development/data-and-backend/json>
-* Alert library (Flushbar) <https://pub.dev/packages/flushbar>
+* Firebase library | [Firebase](https://firebase.flutter.dev/)
+* Make simplest way navigation flutter | [GetX](https://pub.dev/packages/get)
+* Handle http request | [HTTP](https://pub.dev/packages/http)
+* Local storage to save services data from network | [Hive](https://pub.dev/packages/hive)
+* Load svg file | [Flutter SVG](https://pub.dev/packages/flutter_svg)
+* Number format | [intl](https://pub.dev/packages/intl)
+* Flutter model | [Json Serialization](https://flutter.dev/docs/development/data-and-backend/json)
+* Alert library | [Flushbar](https://pub.dev/packages/flushbar)
 
 ## Assets
 
-* Font (poppins) <https://fonts.google.com/specimen/Poppins>
-* Image assets source (undraw) <https://undraw.co/illustrations>
+* [Font poppins](https://fonts.google.com/specimen/Poppins)
+* Image assets source from [undraw](https://undraw.co/illustrations)
 
 ## TODO
 
 * [x] Create app && setup boilerplate for BLoC pattern
-* [ ] Define skeleton for laundry pos app needs
+* [x] Define skeleton for laundry pos app needs
+* [x] Define global data store
 * [ ] Setup firebase
-* [ ] Make App run well with BLoC pattern
-* [ ] Define global data store
+* [ ] Make App run well with BLoC pattern and firebase
 * [ ] Create models
 * [ ] Create resources
 * [ ] Create blocs
@@ -39,10 +39,10 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 
 ## Demo App
 
-(Demo) <https://filla.id>
+[Demo](https://filla.id)
 
 ## Copyrights
 
 Open Source GNU License
 
-Made by (**Mohammad Khaufillah**) <https://filla.id> with ❤
+Made by [**Mohammad Khaufillah**](https://filla.id) with ❤

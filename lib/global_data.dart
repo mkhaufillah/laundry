@@ -18,7 +18,11 @@ class GlobalData {
   static const double BODY_MARGIN_PADDING = 16.0;
   static const double COMPONENT_MARGIN_PADDING = 13.0;
 
-  // Define token access for resources
+  // Define resource access
+  static const String API_URL =
+      'https://android-test-fljnd6wana-as.a.run.app/layanan';
+
+  // Define token for resources access
   static const String JWT =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.VSQqLoqlIfKU9FjbAL0zgtD3oxvafbPrhvzFo865Dp0';
 }

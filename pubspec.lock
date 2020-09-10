@@ -265,13 +265,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.5"
-  flutter_secure_storage:
-    dependency: "direct main"
-    description:
-      name: flutter_secure_storage
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.3.3"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -310,6 +303,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  hive:
+    dependency: "direct main"
+    description:
+      name: hive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.4"
   html:
     dependency: transitive
     description:

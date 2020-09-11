@@ -13,7 +13,7 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 * Firebase library | [Firebase](https://firebase.flutter.dev/)
 * Make simplest way navigation flutter | [GetX](https://pub.dev/packages/get)
 * Handle http request | [HTTP](https://pub.dev/packages/http)
-* Local storage to save services data from network | [Hive](https://pub.dev/packages/hive)
+* Local database to cache data from network | [Hive](https://pub.dev/packages/hive)
 * Load svg file | [Flutter SVG](https://pub.dev/packages/flutter_svg)
 * Number format | [intl](https://pub.dev/packages/intl)
 * Flutter model | [Json Serialization](https://flutter.dev/docs/development/data-and-backend/json)
@@ -31,9 +31,9 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 * [x] Define global data store
 * [x] Setup firebase
 * [x] Make App run well with BLoC pattern and firebase
-* [ ] Create models
-* [ ] Create resources
-* [ ] Create blocs
+* [x] Create models
+* [x] Create resources
+* [x] Create blocs
 * [ ] create UI
 * [ ] Done
 

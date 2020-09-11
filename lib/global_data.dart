@@ -16,7 +16,8 @@ class GlobalData {
 
   // Define constistent padding and margin
   static const double BODY_MARGIN_PADDING = 16.0;
-  static const double COMPONENT_MARGIN_PADDING = 13.0;
+  static const double COMPONENT_MARGIN_PADDING = 12.0;
+  static const double BORDER_RADIUS = 12.0;
 
   // Define consistent shadow box
   static const BoxShadow SHADOW = BoxShadow(
@@ -27,12 +28,15 @@ class GlobalData {
 
   // Define resource access
   static const String API_URL =
-      'https://android-test-fljnd6wana-as.a.run.app/layanan';
+      'https://android-test-fljnd6wana-as.a.run.app';
 
   // Define token for resources access
   static const String JWT =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.VSQqLoqlIfKU9FjbAL0zgtD3oxvafbPrhvzFo865Dp0';
 }
+
+/// Stream status
+enum GlobalStreamStatus { INITIALIZED, LOADING, SUCCESS, FAILED }
 
 /// Extension for number datatype
 extension NumberExtension on num {

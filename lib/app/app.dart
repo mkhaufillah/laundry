@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:laundry/app/blocs/get_service_bloc.dart';
+import 'package:laundry/app/blocs/get_transaction_bloc.dart';
+import 'package:laundry/app/blocs/save_transaction_bloc.dart';
 import 'package:laundry/app/ui/pages/home.dart';
 import 'package:laundry/global_data.dart';
 
@@ -11,9 +13,31 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       // Define all blocs
       providers: <BlocProvider>[
+        // Get service bloc
         BlocProvider<GetServiceBloc>(
           create: (context) => GetServiceBloc(
-            GetServiceBlocResults(),
+            GetServiceBlocResults(
+              services: [],
+              status: GlobalStreamStatus.INITIALIZED,
+            ),
+          ),
+        ),
+        // Get transaction bloc
+        BlocProvider<GetTransactionBloc>(
+          create: (context) => GetTransactionBloc(
+            GetTransactionBlocResults(
+              transactions: [],
+              status: GlobalStreamStatus.INITIALIZED,
+            ),
+          ),
+        ),
+        // Save transaction bloc
+        BlocProvider<SaveTransactionBloc>(
+          create: (context) => SaveTransactionBloc(
+            SaveTransactionBlocResults(
+              transactions: [],
+              status: GlobalStreamStatus.INITIALIZED,
+            ),
           ),
         ),
       ],

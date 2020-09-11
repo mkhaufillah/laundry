@@ -45,7 +45,7 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 
 Firebase in this project only setting for android platform. for another platform you can setup manually with follow this [instruction](https://firebase.flutter.dev/docs/overview).
 
-## Copyrights
+## Copyright
 
 Open Source GNU License
 

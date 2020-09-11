@@ -18,6 +18,13 @@ class GlobalData {
   static const double BODY_MARGIN_PADDING = 16.0;
   static const double COMPONENT_MARGIN_PADDING = 13.0;
 
+  // Define consistent shadow box
+  static const BoxShadow SHADOW = BoxShadow(
+    color: Color(0XFF40000000),
+    offset: Offset(0, 0),
+    blurRadius: 12.0,
+  );
+
   // Define resource access
   static const String API_URL =
       'https://android-test-fljnd6wana-as.a.run.app/layanan';

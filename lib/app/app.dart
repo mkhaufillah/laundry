@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:laundry/app/blocs/get_service_bloc.dart';
 import 'package:laundry/app/ui/pages/home.dart';
 import 'package:laundry/global_data.dart';
 
@@ -9,7 +10,13 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       // Define all blocs
-      providers: <BlocProvider>[],
+      providers: <BlocProvider>[
+        BlocProvider<GetServiceBloc>(
+          create: (context) => GetServiceBloc(
+            GetServiceBlocResults(),
+          ),
+        ),
+      ],
       // Building UI
       child: GetMaterialApp(
         title: 'Laundry POS',
@@ -21,11 +28,12 @@ class App extends StatelessWidget {
           errorColor: GlobalData.ERROR_COLOR,
           brightness: Brightness.light,
           primaryColorBrightness: Brightness.dark,
-          accentColorBrightness: Brightness.dark,
+          accentColorBrightness: Brightness.light,
           fontFamily: 'Poppins',
           appBarTheme: AppBarTheme(
             elevation: 0.0,
             color: GlobalData.BACKGROUND_COLOR,
+            brightness: Brightness.light,
           ),
         ),
         // Building navigations

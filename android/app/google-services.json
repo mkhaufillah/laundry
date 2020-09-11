@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "212190351778",
+    "firebase_url": "https://laundry-pos-app.firebaseio.com",
+    "project_id": "laundry-pos-app",
+    "storage_bucket": "laundry-pos-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212190351778:android:4b698fc88081ccc76f22fb",
+        "android_client_info": {
+          "package_name": "id.filla.laundry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "212190351778-6886egdi7h5m0esc8iv6hd22gffb8aop.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.filla.laundry",
+            "certificate_hash": "149a0216458aefd43595cb482561ca0c4059902a"
+          }
+        },
+        {
+          "client_id": "212190351778-ovh7acab0e2mom77cvkrp96ukrqego3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdJf2koO7ndblI_OEZD91SZlg32A1Sjdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "212190351778-ovh7acab0e2mom77cvkrp96ukrqego3u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -26,20 +26,24 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 
 ## TODO
 
-* [x] Create app && setup boilerplate for BLoC pattern
-* [x] Define skeleton for laundry pos app needs
-* [x] Define global data store
-* [ ] Setup firebase
-* [ ] Make App run well with BLoC pattern and firebase
-* [ ] Create models
-* [ ] Create resources
-* [ ] Create blocs
-* [ ] create UI
-* [ ] Done
+1 [x] Create app && setup boilerplate for BLoC pattern
+2 [x] Define skeleton for laundry pos app needs
+3 [x] Define global data store
+4 [x] Setup firebase
+5 [x] Make App run well with BLoC pattern and firebase
+6 [ ] Create models
+7 [ ] Create resources
+8 [ ] Create blocs
+9 [ ] create UI
+10 [ ] Done
 
 ## Demo App
 
 [Demo](https://filla.id)
+
+## Notes
+
+Firebase in this project only setting for android platform. for another platform you can setup manually with follow this [instruction](https://firebase.flutter.dev/docs/overview).
 
 ## Copyrights
 

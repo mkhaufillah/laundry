@@ -1,17 +1,9 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:laundry/app/models/transaction.dart';
 import 'package:laundry/app/resources/repository.dart';
 import 'package:laundry/global_data.dart';
-
-/// Define parameter class for get transaction bloc
-/// This class contain callback function
-class GetTransactionBlocParams {
-  final BuildContext context;
-
-  GetTransactionBlocParams({@required this.context});
-}
 
 /// Define results class for get transaction bloc
 class GetTransactionBlocResults {
@@ -25,14 +17,12 @@ class GetTransactionBlocResults {
 }
 
 /// This is main bloc class with params and result
-class GetTransactionBloc
-    extends Bloc<GetTransactionBlocParams, GetTransactionBlocResults> {
+class GetTransactionBloc extends Bloc<void, GetTransactionBlocResults> {
   GetTransactionBloc(GetTransactionBlocResults initialState)
       : super(initialState);
 
   @override
-  Stream<GetTransactionBlocResults> mapEventToState(
-      GetTransactionBlocParams params) async* {
+  Stream<GetTransactionBlocResults> mapEventToState(void params) async* {
     try {
       Repository repo = Repository();
 
@@ -66,15 +56,14 @@ class GetTransactionBloc
       );
 
       // Send error notify to user
-      Flushbar(
+      Get.snackbar(
+        'Opps...',
+        e.toString(),
         borderRadius: GlobalData.BORDER_RADIUS,
         margin: EdgeInsets.all(GlobalData.BODY_MARGIN_PADDING),
-        title: 'Opps...',
-        message: e.toString(),
         backgroundColor: GlobalData.ERROR_COLOR,
-        isDismissible: true,
-        duration: Duration(seconds: 6),
-      ).show(params.context);
+        colorText: GlobalData.BACKGROUND_COLOR,
+      );
     }
   }
 }

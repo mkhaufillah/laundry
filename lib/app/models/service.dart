@@ -5,7 +5,7 @@ part 'service.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 @HiveType(typeId: 0)
-class Service extends HiveObject {
+class Service {
   @JsonKey(name: 'idlayanan')
   @HiveField(0)
   String id;
@@ -45,6 +45,8 @@ class Service extends HiveObject {
   @JsonKey(name: 'update_at')
   @HiveField(9)
   String updateAt;
+
+  bool isSearched;
 
   Service({
     this.id,

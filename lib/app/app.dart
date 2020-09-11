@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:laundry/app/blocs/get_service_bloc.dart';
 import 'package:laundry/app/blocs/get_transaction_bloc.dart';
 import 'package:laundry/app/blocs/save_transaction_bloc.dart';
+import 'package:laundry/app/models/service.dart';
+import 'package:laundry/app/models/transaction.dart';
 import 'package:laundry/app/ui/pages/home.dart';
+import 'package:laundry/app/ui/pages/input_transaction.dart';
+import 'package:laundry/app/ui/pages/review_transaction.dart';
 import 'package:laundry/global_data.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Scope with try catch to avoid error duplicate key in local database
+    try {
+      // register local database
+      Hive.registerAdapter(ServiceAdapter());
+      Hive.registerAdapter(TransactionAdapter());
+    } catch (_e) {}
+
     return MultiBlocProvider(
       // Define all blocs
       providers: <BlocProvider>[
@@ -61,10 +73,26 @@ class App extends StatelessWidget {
           ),
         ),
         // Building navigations
-        initialRoute: '/',
+        initialRoute: '/home',
         getPages: [
           GetPage(
-            name: '/',
+            name: '/home',
+            page: () => Home(),
+          ),
+          GetPage(
+            name: '/input-transaction',
+            page: () => InputTransaction(),
+          ),
+          GetPage(
+            name: '/review-transaction',
+            page: () => ReviewTransaction(),
+          ),
+          GetPage(
+            name: '/transaction-success',
+            page: () => Home(),
+          ),
+          GetPage(
+            name: '/list-transaction',
             page: () => Home(),
           ),
         ],

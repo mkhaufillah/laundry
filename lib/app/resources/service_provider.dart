@@ -4,17 +4,21 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundry/app/models/service.dart';
 import 'package:laundry/global_data.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ServiceProvider {
   final String _boxName = 'services';
 
   Future<List<Service>> getFromCache() async {
     try {
+      // Init local database
+      var dir = await getApplicationDocumentsDirectory();
+      Hive.init(dir.path);
       // Open local database
       var box = await Hive.openBox<Service>(_boxName);
 
       // Return data from local database
-      return box.values;
+      return box.values.toList();
     } catch (e) {
       // For debugging detailed error
       print(e);
@@ -49,19 +53,22 @@ class ServiceProvider {
 
       // Revalidate cache if status server code == 200
       if (response.statusCode == 200) {
+        // Init local database
+        var dir = await getApplicationDocumentsDirectory();
+        Hive.init(dir.path);
         // Open local database
         var box = await Hive.openBox<Service>(_boxName);
 
         // Delete local data
-        box.deleteAll(box.values);
+        box.deleteAll(box.keys.toList());
 
         // Save to local database
-        json.decode(response.body)['data'].forEach((element) {
+        json.decode(response.body).forEach((element) {
           box.add(Service.fromJson(element));
         });
 
         // Stream updated data
-        return box.values;
+        return box.values.toList();
       }
 
       // Throw error if status server code != 200

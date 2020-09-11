@@ -1,16 +1,19 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:laundry/app/models/service.dart';
 import 'package:laundry/app/resources/repository.dart';
 import 'package:laundry/global_data.dart';
 
 /// Define parameter class for get service bloc
-/// This class contain callback function
 class GetServiceBlocParams {
-  final BuildContext context;
+  final String query;
+  final List<Service> services;
 
-  GetServiceBlocParams({@required this.context});
+  GetServiceBlocParams({
+    this.query,
+    this.services,
+  });
 }
 
 /// Define results class for get service bloc
@@ -40,6 +43,26 @@ class GetServiceBloc extends Bloc<GetServiceBlocParams, GetServiceBlocResults> {
         status: GlobalStreamStatus.LOADING,
       );
 
+      // Search
+      if (params.query != null && params.services != null) {
+        List<Service> searched = [];
+        List<Service> unsearched = [];
+        params.services.forEach((element) {
+          if (element.name.toLowerCase().contains(params.query.toLowerCase())) {
+            element.isSearched = true;
+            searched.add(element);
+          } else {
+            element.isSearched = false;
+            unsearched.add(element);
+          }
+        });
+        yield GetServiceBlocResults(
+          services: [...searched, ...unsearched],
+          status: GlobalStreamStatus.SUCCESS,
+        );
+        return;
+      }
+
       // Use Stale-While-Revalidate cache strategy
       // Stale from cache
       List<Service> services = await repo.service.getFromCache();
@@ -64,15 +87,14 @@ class GetServiceBloc extends Bloc<GetServiceBlocParams, GetServiceBlocResults> {
       );
 
       // Send error notify to user
-      Flushbar(
+      Get.snackbar(
+        'Opps...',
+        e.toString(),
         borderRadius: GlobalData.BORDER_RADIUS,
         margin: EdgeInsets.all(GlobalData.BODY_MARGIN_PADDING),
-        title: 'Opps...',
-        message: e.toString(),
         backgroundColor: GlobalData.ERROR_COLOR,
-        isDismissible: true,
-        duration: Duration(seconds: 6),
-      ).show(params.context);
+        colorText: GlobalData.BACKGROUND_COLOR,
+      );
     }
   }
 }

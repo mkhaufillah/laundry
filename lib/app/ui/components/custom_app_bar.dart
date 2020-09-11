@@ -13,6 +13,8 @@ class CustomAppBar extends StatelessWidget {
       decoration: BoxDecoration(boxShadow: [GlobalData.SHADOW]),
       child: AppBar(
         brightness: Brightness.light,
+        actionsIconTheme: IconThemeData(color: GlobalData.FOREGROUND_COLOR),
+        iconTheme: IconThemeData(color: GlobalData.FOREGROUND_COLOR),
         title: Text(
           this.title,
           style: TextStyle(

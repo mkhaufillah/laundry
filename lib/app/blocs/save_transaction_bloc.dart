@@ -1,6 +1,6 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:laundry/app/models/transaction.dart';
 import 'package:laundry/app/resources/repository.dart';
 import 'package:laundry/global_data.dart';
@@ -8,11 +8,9 @@ import 'package:laundry/global_data.dart';
 /// Define parameter class for save transaction bloc
 /// This class contain callback function
 class SaveTransactionBlocParams {
-  final BuildContext context;
   final Transaction transaction;
 
   SaveTransactionBlocParams({
-    @required this.context,
     @required this.transaction,
   });
 }
@@ -61,15 +59,14 @@ class SaveTransactionBloc
       );
 
       // Send error notify to user
-      Flushbar(
+      Get.snackbar(
+        'Opps...',
+        e.toString(),
         borderRadius: GlobalData.BORDER_RADIUS,
         margin: EdgeInsets.all(GlobalData.BODY_MARGIN_PADDING),
-        title: 'Opps...',
-        message: e.toString(),
         backgroundColor: GlobalData.ERROR_COLOR,
-        isDismissible: true,
-        duration: Duration(seconds: 6),
-      ).show(params.context);
+        colorText: GlobalData.BACKGROUND_COLOR,
+      );
     }
   }
 }

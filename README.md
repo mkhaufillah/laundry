@@ -11,13 +11,13 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 ## libraries in this app
 
 * Firebase library | [Firebase](https://firebase.flutter.dev/)
-* Make simplest way navigation flutter | [GetX](https://pub.dev/packages/get)
+* Make simplest way in flutter | [GetX](https://pub.dev/packages/get)
 * Handle http request | [HTTP](https://pub.dev/packages/http)
 * Local database to cache data from network | [Hive](https://pub.dev/packages/hive)
 * Load svg file | [Flutter SVG](https://pub.dev/packages/flutter_svg)
 * Number format | [intl](https://pub.dev/packages/intl)
 * Flutter model | [Json Serialization](https://flutter.dev/docs/development/data-and-backend/json)
-* Alert library | [Flushbar](https://pub.dev/packages/flushbar)
+* Datetime picker | [Flutter Datetime Picker](https://pub.dev/packages/flutter_datetime_picker)
 
 ## Assets
 

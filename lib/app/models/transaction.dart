@@ -1,47 +1,40 @@
-import 'package:hive/hive.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:laundry/app/models/service.dart';
+import 'package:laundry/app/models/transaction_service.dart';
 
 part 'transaction.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-@HiveType(typeId: 1)
 class Transaction {
-  @JsonKey(name: 'id')
-  @HiveField(0)
-  String id;
+  @JsonKey(name: 'idtransaksi')
+  String transactionId;
 
   @JsonKey(name: 'nama_pelanggan')
-  @HiveField(1)
   String customerName;
 
-  @JsonKey(name: 'nama_layanan')
-  @HiveField(2)
-  Service service;
+  @JsonKey(name: 'total_tagihan')
+  int billTotal;
 
-  @JsonKey(name: 'kuantitas')
-  @HiveField(3)
-  int quantity;
+  @JsonKey(name: 'keterangan')
+  String additionalInfo;
 
-  @JsonKey(name: 'tanggal_pembuatan')
-  @HiveField(4)
+  @JsonKey(name: 'tanggal_buat')
   DateTime createdDate;
 
   @JsonKey(name: 'tanggal_selesai')
-  @HiveField(5)
   DateTime finishedDate;
 
-  @JsonKey(name: 'keterangan')
-  @HiveField(6)
-  String additionalInfo;
+  @JsonKey(name: 'layanan')
+  List<TransactionService> services;
 
   Transaction({
-    this.customerName,
-    this.service,
-    this.quantity,
-    this.createdDate,
-    this.finishedDate,
-    this.additionalInfo,
+    @required this.transactionId,
+    @required this.customerName,
+    @required this.billTotal,
+    @required this.additionalInfo,
+    @required this.createdDate,
+    @required this.finishedDate,
+    @required this.services,
   });
 
   factory Transaction.fromJson(Map<String, dynamic> json) =>

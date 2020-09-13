@@ -1,38 +1,48 @@
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jaguar_jwt/jaguar_jwt.dart';
 import 'package:laundry/app/models/service.dart';
 import 'package:laundry/global_data.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ServiceProvider {
-  final String _boxName = 'services';
-
-  Future<List<Service>> getFromCache() async {
+  Future<List<Service>> get({
+    @required String q,
+    @required int page,
+  }) async {
     try {
-      // Init local database
-      var dir = await getApplicationDocumentsDirectory();
-      Hive.init(dir.path);
-      // Open local database
-      var box = await Hive.openBox<Service>(_boxName);
+      // Generate limit & offset
+      page = page < 1 ? 1 : page;
+      int limit = 10;
+      int offset = limit * (page - 1);
 
-      // Return data from local database
-      return box.values.toList();
-    } catch (e) {
-      // For debugging detailed error
-      print(e);
+      /// FIXME: Bugs in API
+      /// In indonesia language
+      ///
+      /// Karena pada API request dengan paramenter "q" dan "offset"
+      /// tidak bekerja (hanya parameter limit yang bekerja)
+      /// maka, dilakuka pagination offline dan search offline untuk sementara
+      /// sampai dengan bugs diperbaiki.
+      /// Sehingga JWT saat ini hanya digunakan untuk akses API bukan untuk klaim parameter q dan offset
 
-      // Throw simple error to friendly UX
-      throw 'Jaringan bermasalah, silahkan periksa koneksi internet anda.';
-    }
-  }
+      // Create JWT claim
+      JwtClaim claimSet = new JwtClaim(otherClaims: <String, dynamic>{
+        // FIXME: Bugs in API
+        // In indonesia language
+        //
+        // Karena yang bisa hanya limit maka limit sementara dibuat maksimal
+        'q': q,
+        'limit': double.maxFinite.round(), // max limit
+        'offset': offset,
+      }, maxAge: const Duration(minutes: 5));
 
-  Future<List<Service>> getFromNetwork() async {
-    try {
+      // Create JWT signature
+      String jwt = issueJwtHS256(claimSet, GlobalData.JWT_KEY);
+
       // Create map body request
       Map<String, dynamic> body = {
-        'jwt': GlobalData.JWT,
+        'jwt': jwt,
       };
 
       // Generate map body to body url encoded
@@ -51,24 +61,42 @@ class ServiceProvider {
         body: urlEncodedbody,
       );
 
-      // Revalidate cache if status server code == 200
+      // FIXME: For debugging purpose
+      print(jwt);
+
+      // Return data if status server code == 200
       if (response.statusCode == 200) {
-        // Init local database
-        var dir = await getApplicationDocumentsDirectory();
-        Hive.init(dir.path);
-        // Open local database
-        var box = await Hive.openBox<Service>(_boxName);
+        // Create list of service variable
+        List<Service> services = [];
 
-        // Delete local data
-        box.deleteAll(box.keys.toList());
+        /// FIXME: Bugs in API
+        /// In indonesia language
+        ///
+        /// Karena pada API request dengan paramenter "q" dan "offset"
+        /// tidak bekerja (hanya parameter limit yang bekerja)
+        /// maka, dilakuka pagination offline dan search offline untuk sementara
+        /// sampai dengan bugs diperbaiki.
+        /// Sehingga JWT saat ini hanya digunakan untuk akses API bukan untuk klaim parameter q dan offset
 
-        // Save to local database
+        // FIXME: Bugs in API
+        // Mapping with offline search and pagination
+        int i = 0;
         json.decode(response.body).forEach((element) {
-          box.add(Service.fromJson(element));
+          Service service = Service.fromJson(element);
+          if (service.serviceName.toLowerCase().contains(q.toLowerCase())) {
+            if (i >= offset && i < limit * page) services.add(service);
+            i++;
+          }
         });
 
+        // FIXME: Bugs in API
+        // Mapping service with default behavior (API fixed)
+        // json.decode(response.body).forEach((element) {
+        //   services.add(Service.fromJson(element));
+        // });
+
         // Stream updated data
-        return box.values.toList();
+        return services;
       }
 
       // Throw error if status server code != 200

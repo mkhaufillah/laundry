@@ -9,15 +9,17 @@ import 'package:laundry/global_data.dart';
 /// This class contain callback function
 class SaveTransactionBlocParams {
   final Transaction transaction;
+  final Function callback;
 
   SaveTransactionBlocParams({
     @required this.transaction,
+    @required this.callback,
   });
 }
 
 /// Define results class for save transaction bloc
 class SaveTransactionBlocResults {
-  final List<Transaction> transactions;
+  final Transaction transactions;
   final GlobalStreamStatus status;
 
   SaveTransactionBlocResults({
@@ -40,7 +42,7 @@ class SaveTransactionBloc
 
       // Stream loading
       yield SaveTransactionBlocResults(
-        transactions: [],
+        transactions: null,
         status: GlobalStreamStatus.LOADING,
       );
 
@@ -51,10 +53,13 @@ class SaveTransactionBloc
         ),
         status: GlobalStreamStatus.SUCCESS,
       );
+
+      // Call callback
+      params.callback();
     } catch (e) {
       // Stream error
       yield SaveTransactionBlocResults(
-        transactions: [],
+        transactions: null,
         status: GlobalStreamStatus.FAILED,
       );
 

@@ -7,19 +7,21 @@ import 'package:laundry/global_data.dart';
 
 /// Define parameter class for get service bloc
 class GetServiceBlocParams {
-  final String query;
-  final List<Service> services;
+  String q;
+  int page;
+  Function callback;
 
   GetServiceBlocParams({
-    this.query,
-    this.services,
+    this.q,
+    this.page,
+    this.callback,
   });
 }
 
 /// Define results class for get service bloc
 class GetServiceBlocResults {
-  final List<Service> services;
-  final GlobalStreamStatus status;
+  List<Service> services;
+  GlobalStreamStatus status;
 
   GetServiceBlocResults({
     @required this.services,
@@ -43,42 +45,20 @@ class GetServiceBloc extends Bloc<GetServiceBlocParams, GetServiceBlocResults> {
         status: GlobalStreamStatus.LOADING,
       );
 
-      // Search
-      if (params.query != null && params.services != null) {
-        List<Service> searched = [];
-        List<Service> unsearched = [];
-        params.services.forEach((element) {
-          if (element.name.toLowerCase().contains(params.query.toLowerCase())) {
-            element.isSearched = true;
-            searched.add(element);
-          } else {
-            element.isSearched = false;
-            unsearched.add(element);
-          }
-        });
-        yield GetServiceBlocResults(
-          services: [...searched, ...unsearched],
-          status: GlobalStreamStatus.SUCCESS,
-        );
-        return;
-      }
+      // Filter params
+      params.q = params.q == null ? '' : params.q;
+      params.page = params.page == null ? 0 : params.page;
 
-      // Use Stale-While-Revalidate cache strategy
-      // Stale from cache
-      List<Service> services = await repo.service.getFromCache();
-      // if length of services <= 0, direct get data from network
-      if (services.length > 0) {
-        yield GetServiceBlocResults(
-          services: services,
-          status: GlobalStreamStatus.SUCCESS,
-        );
-      }
-
-      // Revalidate cache with data from network
+      // Get data from resources
       yield GetServiceBlocResults(
-        services: await repo.service.getFromNetwork(),
+        services: await repo.service.get(
+          q: params.q,
+          page: params.page,
+        ),
         status: GlobalStreamStatus.SUCCESS,
       );
+
+      if (params.callback != null) params.callback();
     } catch (e) {
       // Stream error
       yield GetServiceBlocResults(

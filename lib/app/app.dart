@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:laundry/app/blocs/get_service_bloc.dart';
 import 'package:laundry/app/blocs/get_transaction_bloc.dart';
 import 'package:laundry/app/blocs/save_transaction_bloc.dart';
-import 'package:laundry/app/models/service.dart';
-import 'package:laundry/app/models/transaction.dart';
 import 'package:laundry/app/ui/pages/home.dart';
 import 'package:laundry/app/ui/pages/input_transaction.dart';
+import 'package:laundry/app/ui/pages/list_service.dart';
+import 'package:laundry/app/ui/pages/list_transaction.dart';
 import 'package:laundry/app/ui/pages/review_transaction.dart';
+import 'package:laundry/app/ui/pages/show_transaction.dart';
+import 'package:laundry/app/ui/pages/transaction_success.dart';
 import 'package:laundry/global_data.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Scope with try catch to avoid error duplicate key in local database
-    try {
-      // register local database
-      Hive.registerAdapter(ServiceAdapter());
-      Hive.registerAdapter(TransactionAdapter());
-    } catch (_e) {}
-
     return MultiBlocProvider(
       // Define all blocs
       providers: <BlocProvider>[
@@ -47,7 +41,7 @@ class App extends StatelessWidget {
         BlocProvider<SaveTransactionBloc>(
           create: (context) => SaveTransactionBloc(
             SaveTransactionBlocResults(
-              transactions: [],
+              transactions: null,
               status: GlobalStreamStatus.INITIALIZED,
             ),
           ),
@@ -84,16 +78,24 @@ class App extends StatelessWidget {
             page: () => InputTransaction(),
           ),
           GetPage(
+            name: '/list-service',
+            page: () => ListService(),
+          ),
+          GetPage(
             name: '/review-transaction',
             page: () => ReviewTransaction(),
           ),
           GetPage(
             name: '/transaction-success',
-            page: () => Home(),
+            page: () => TransactionSuccess(),
           ),
           GetPage(
             name: '/list-transaction',
-            page: () => Home(),
+            page: () => ListTransaction(),
+          ),
+          GetPage(
+            name: '/show-transaction',
+            page: () => ShowTransaction(),
           ),
         ],
       ),

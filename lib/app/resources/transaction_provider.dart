@@ -1,55 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:laundry/app/models/transaction.dart' as model;
-import 'package:path_provider/path_provider.dart';
 
 class TransactionProvider {
-  final String _boxName = 'transactions';
   final CollectionReference _transactions =
       FirebaseFirestore.instance.collection('transactions');
 
-  Future<List<model.Transaction>> getFromCache() async {
+  Future<List<model.Transaction>> get({
+    String customerName,
+    DateTime startAfter,
+  }) async {
     try {
-      // Init local database
-      var dir = await getApplicationDocumentsDirectory();
-      Hive.init(dir.path);
-      // Open local database
-      var box = await Hive.openBox<model.Transaction>(_boxName);
+      // Limit
+      int limit = 10;
 
-      // Return data from local database
-      return box.values.toList();
-    } catch (e) {
-      // For debugging detailed error
-      print(e);
+      // Init variable query
+      Query query =
+          _transactions.orderBy('tanggal_buat', descending: true).limit(limit);
 
-      // Throw simple error to friendly UX
-      throw 'Jaringan bermasalah, silahkan periksa koneksi internet anda.';
-    }
-  }
+      // StartAfter filter
+      if (startAfter != null) query = query.startAfter([startAfter]);
 
-  Future<List<model.Transaction>> getFromNetwork() async {
-    try {
+      if (customerName != null && customerName != '')
+        query = query.where(customerName);
+
       // Get data from document
-      QuerySnapshot querySnapshot = await _transactions.get();
+      QuerySnapshot querySnapshot = await query.get();
 
-      // Revalidate cache
-      // Init local database
-      var dir = await getApplicationDocumentsDirectory();
-      Hive.init(dir.path);
-      // Open local database
-      var box = await Hive.openBox<model.Transaction>(_boxName);
-
-      // delete local data
-      box.deleteAll(box.keys.toList());
+      // Init varialble list transaction
+      List<model.Transaction> transactions = [];
 
       // Save to local database
       querySnapshot.docs.forEach((doc) {
-        box.add(model.Transaction.fromJson(doc.data()));
+        transactions.add(model.Transaction.fromJson(doc.data()));
       });
 
       // Stream updated data
-      return box.values.toList();
+      return transactions;
     } catch (e) {
       // For debugging detailed error
       print(e);
@@ -59,24 +46,15 @@ class TransactionProvider {
     }
   }
 
-  Future<List<model.Transaction>> save({
+  Future<model.Transaction> save({
     @required model.Transaction transaction,
   }) async {
     try {
       // post to firebase
       await _transactions.add(transaction.toJson());
 
-      // Init local database
-      var dir = await getApplicationDocumentsDirectory();
-      Hive.init(dir.path);
-      // Open local database
-      var box = await Hive.openBox<model.Transaction>(_boxName);
-
-      // Save to local database
-      await box.add(transaction);
-
       // return local data
-      return box.values.toList();
+      return transaction;
     } catch (e) {
       // For debugging detailed error
       print(e);

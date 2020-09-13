@@ -1,64 +1,51 @@
-import 'package:hive/hive.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'service.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-@HiveType(typeId: 0)
 class Service {
   @JsonKey(name: 'idlayanan')
-  @HiveField(0)
-  String id;
+  String serviceId;
 
   @JsonKey(name: 'nama_layanan')
-  @HiveField(1)
-  String name;
+  String serviceName;
 
   @JsonKey(name: 'jumlah')
-  @HiveField(2)
   int qty;
 
   @JsonKey(name: 'durasi_penyelesaian')
-  @HiveField(3)
   int completeDuration;
 
   @JsonKey(name: 'idsatuan')
-  @HiveField(4)
   int unitId;
 
   @JsonKey(name: 'nama_satuan')
-  @HiveField(5)
   String unitName;
 
   @JsonKey(name: 'harga')
-  @HiveField(6)
   int price;
 
   @JsonKey(name: 'hapus')
-  @HiveField(7)
   int isDelete;
 
-  @JsonKey(name: 'create_at')
-  @HiveField(8)
-  String createAt;
+  @JsonKey(name: 'created_at')
+  DateTime createdAt;
 
-  @JsonKey(name: 'update_at')
-  @HiveField(9)
-  String updateAt;
-
-  bool isSearched;
+  @JsonKey(name: 'updated_at')
+  DateTime updatedAt;
 
   Service({
-    this.id,
-    this.name,
-    this.qty,
-    this.completeDuration,
-    this.unitId,
-    this.unitName,
-    this.price,
-    this.isDelete,
-    this.createAt,
-    this.updateAt,
+    @required this.serviceId,
+    @required this.serviceName,
+    @required this.qty,
+    @required this.completeDuration,
+    @required this.unitId,
+    @required this.unitName,
+    @required this.price,
+    @required this.isDelete,
+    @required this.createdAt,
+    @required this.updatedAt,
   });
 
   factory Service.fromJson(Map<String, dynamic> json) =>

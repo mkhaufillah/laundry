@@ -7,6 +7,7 @@ enum CustomButtonType {
   PRIMARY,
   ACCENT,
   DISABLE,
+  LOADING,
 }
 enum CustomButtonSize {
   DEFAULT,
@@ -34,7 +35,9 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RaisedButton button = RaisedButton(
-      color: type == null || type == CustomButtonType.DEFAULT
+      color: type == null ||
+              type == CustomButtonType.DEFAULT ||
+              type == CustomButtonType.LOADING
           ? GlobalData.GREY_LIGHT_COLOR
           : type == CustomButtonType.PRIMARY
               ? GlobalData.PRIMARY_COLOR
@@ -45,12 +48,14 @@ class CustomButton extends StatelessWidget {
           type == CustomButtonType.PRIMARY || type == CustomButtonType.DISABLE
               ? Brightness.dark
               : Brightness.light,
-      child: Text(
-        text.toUpperCase(),
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-        ),
-      ),
+      child: type == CustomButtonType.LOADING
+          ? CircularProgressIndicator()
+          : Text(
+              text.toUpperCase(),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
       onPressed: onPressed,
       padding: size == null || size == CustomButtonSize.DEFAULT
           ? EdgeInsets.only(

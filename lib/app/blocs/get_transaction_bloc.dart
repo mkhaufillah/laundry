@@ -5,10 +5,23 @@ import 'package:laundry/app/models/transaction.dart';
 import 'package:laundry/app/resources/repository.dart';
 import 'package:laundry/global_data.dart';
 
+/// Define params class for get transaction bloc
+class GetTransactionBlocParams {
+  DateTime startAfter;
+  String customerName;
+  Function callback;
+
+  GetTransactionBlocParams({
+    this.startAfter,
+    this.customerName,
+    this.callback,
+  });
+}
+
 /// Define results class for get transaction bloc
 class GetTransactionBlocResults {
-  final List<Transaction> transactions;
-  final GlobalStreamStatus status;
+  List<Transaction> transactions;
+  GlobalStreamStatus status;
 
   GetTransactionBlocResults({
     @required this.transactions,
@@ -17,12 +30,14 @@ class GetTransactionBlocResults {
 }
 
 /// This is main bloc class with params and result
-class GetTransactionBloc extends Bloc<void, GetTransactionBlocResults> {
+class GetTransactionBloc
+    extends Bloc<GetTransactionBlocParams, GetTransactionBlocResults> {
   GetTransactionBloc(GetTransactionBlocResults initialState)
       : super(initialState);
 
   @override
-  Stream<GetTransactionBlocResults> mapEventToState(void params) async* {
+  Stream<GetTransactionBlocResults> mapEventToState(
+      GetTransactionBlocParams params) async* {
     try {
       Repository repo = Repository();
 
@@ -32,22 +47,16 @@ class GetTransactionBloc extends Bloc<void, GetTransactionBlocResults> {
         status: GlobalStreamStatus.LOADING,
       );
 
-      // Use Stale-While-Revalidate cache strategy
-      // Stale from cache
-      List<Transaction> transactions = await repo.transaction.getFromCache();
-      // if length of transactions <= 0, direct get data from network
-      if (transactions.length > 0) {
-        yield GetTransactionBlocResults(
-          transactions: transactions,
-          status: GlobalStreamStatus.SUCCESS,
-        );
-      }
-
-      // Revalidate cache with data from network
+      // Get data from resource
       yield GetTransactionBlocResults(
-        transactions: await repo.transaction.getFromNetwork(),
+        transactions: await repo.transaction.get(
+          startAfter: params.startAfter,
+          customerName: params.customerName,
+        ),
         status: GlobalStreamStatus.SUCCESS,
       );
+
+      if (params.callback != null) params.callback();
     } catch (e) {
       // Stream error
       yield GetTransactionBlocResults(

@@ -27,12 +27,10 @@ class GlobalData {
   );
 
   // Define resource access
-  static const String API_URL =
-      'https://android-test-fljnd6wana-as.a.run.app';
+  static const String API_URL = 'https://android-test-fljnd6wana-as.a.run.app';
 
   // Define token for resources access
-  static const String JWT =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.VSQqLoqlIfKU9FjbAL0zgtD3oxvafbPrhvzFo865Dp0';
+  static const String JWT_KEY = 'adaidelangsungjalan';
 }
 
 /// Stream status

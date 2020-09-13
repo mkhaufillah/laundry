@@ -7,12 +7,14 @@ class CustomInputText extends StatelessWidget {
   final String hint;
   final Function(String) onChanged;
   final TextInputType type;
+  final FocusNode focusNode;
 
   CustomInputText({
     this.type,
     this.label,
     this.err,
     this.hint,
+    this.focusNode,
     @required this.onChanged,
   });
 
@@ -20,6 +22,7 @@ class CustomInputText extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       keyboardType: type == null ? TextInputType.text : type,
+      focusNode: focusNode,
       decoration: InputDecoration(
         filled: true,
         fillColor: GlobalData.GREY_LIGHT_COLOR,

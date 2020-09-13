@@ -44,10 +44,12 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 
 ## Notes
 
-**Firebase**
+* **Firebase**
+
 Firebase in this project only setting for android platform. for another platform you can setup manually with follow this [instruction](https://firebase.flutter.dev/docs/overview).
 
-**Model**
+* **Model**
+
 Run this code in terminal to generate model
 
 ```bash

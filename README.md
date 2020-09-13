@@ -8,7 +8,7 @@ This app made for laundry company to easily manage their transactions and make m
 
 This project using **Flutter BLoC pattern**. The gist of BLoC is that everything in the app should be represented as stream of events: widgets submit events; other widgets will respond. BLoC sits in the middle, managing the conversation.
 
-## libraries in this app
+## External Libraries
 
 * Firebase library | [Firebase](https://firebase.flutter.dev/)
 * Make simplest way in flutter | [GetX](https://pub.dev/packages/get)
@@ -40,13 +40,15 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 
 ## Demo App
 
-[Demo](https://filla.id)
+[Demo](https://github.com/mkhaufillah/laundry/tree/master/app_build_release)
 
 ## Notes
 
+**Firebase**
 Firebase in this project only setting for android platform. for another platform you can setup manually with follow this [instruction](https://firebase.flutter.dev/docs/overview).
 
-Run in terminal to generate model
+**Model**
+Run this code in terminal to generate model
 
 ```bash
 flutter pub run build_runner build

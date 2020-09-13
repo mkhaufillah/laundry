@@ -31,6 +31,8 @@ class _ListServiceState extends State<ListService> {
 
   ScrollController _scrollController;
 
+  bool _isStarting;
+
   Future<bool> _onWillPop() async {
     Get.back(result: _transactionServices);
     return false;
@@ -114,13 +116,11 @@ class _ListServiceState extends State<ListService> {
   @override
   void initState() {
     _getServiceBloc = BlocProvider.of<GetServiceBloc>(context);
-    _getServiceBloc.add(GetServiceBlocParams(page: _page));
 
     _idTransaction = Get.arguments as String;
     _buyQty = 0;
 
     _transactionServices = [];
-    _services = [];
 
     // For pagination
     _scrollController = ScrollController();
@@ -138,12 +138,15 @@ class _ListServiceState extends State<ListService> {
   @override
   void didChangeDependencies() {
     _page = 1;
+    _services = [];
+    _getServiceBloc.add(GetServiceBlocParams(page: _page));
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _isStarting = null;
     super.dispose();
   }
 
@@ -167,6 +170,12 @@ class _ListServiceState extends State<ListService> {
                   else if (snapshot.services.length != 0 &&
                       _services[0].serviceId != snapshot.services[0].serviceId)
                     _services = [..._services, ...snapshot.services];
+
+                  // Reset previous pagination
+                  if (_isStarting == null) {
+                    _isStarting = true;
+                    _services = [];
+                  }
 
                   // If result stream success
                   if ((snapshot.status == GlobalStreamStatus.SUCCESS &&

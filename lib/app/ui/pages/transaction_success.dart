@@ -12,7 +12,7 @@ class TransactionSuccess extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: PreferredSize(
-        child: CustomAppBar(title: 'Review Transaksi'),
+        child: CustomAppBar(title: 'Transaksi berhasil'),
         preferredSize: Size.fromHeight(kToolbarHeight),
       ),
       body: SafeArea(

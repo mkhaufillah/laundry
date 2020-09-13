@@ -132,7 +132,7 @@ class _ReviewTransactionState extends State<ReviewTransaction> {
                     SaveTransactionBlocParams(
                         transaction: _transaction,
                         callback: () {
-                          Get.toNamed('/transaction-success');
+                          Get.offAllNamed('/transaction-success');
                         }),
                   );
                 };

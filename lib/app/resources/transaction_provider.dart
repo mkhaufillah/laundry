@@ -14,15 +14,29 @@ class TransactionProvider {
       // Limit
       int limit = 10;
 
+      // FIXME: For debugging purpose
+      print('limit: ' + limit.toString());
+      print('startAfter: ' +
+          (startAfter != null ? startAfter.toIso8601String() : 'null'));
+      print('customerName: ' + customerName.toString());
+
       // Init variable query
-      Query query =
-          _transactions.orderBy('tanggal_buat', descending: true).limit(limit);
+      Query query = _transactions.orderBy('tanggal_buat', descending: true);
 
       // StartAfter filter
-      if (startAfter != null) query = query.startAfter([startAfter]);
+      if (startAfter != null)
+        query = query.startAfter(
+          [startAfter.toIso8601String()],
+        );
 
+      // Where filter
       if (customerName != null && customerName != '')
-        query = query.where(customerName);
+        query = query.where(
+          'nama_pelanggan',
+          isEqualTo: customerName,
+        );
+
+      query = query.limit(limit);
 
       // Get data from document
       QuerySnapshot querySnapshot = await query.get();
@@ -34,6 +48,10 @@ class TransactionProvider {
       querySnapshot.docs.forEach((doc) {
         transactions.add(model.Transaction.fromJson(doc.data()));
       });
+
+      // FIXME: For debugging purpose
+      print('first data: ' +
+          (transactions.length <= 0 ? 'null' : transactions[0].customerName));
 
       // Stream updated data
       return transactions;

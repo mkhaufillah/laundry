@@ -16,7 +16,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        child: CustomAppBar(title: 'Laundry POS'),
+        child: CustomAppBar(title: 'Selamat Datang 🎉'),
         preferredSize: Size.fromHeight(kToolbarHeight),
       ),
       body: SafeArea(

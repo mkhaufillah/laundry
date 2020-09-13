@@ -17,6 +17,12 @@ class ServiceProvider {
       int limit = 10;
       int offset = limit * (page - 1);
 
+      // FIXME: For debugging purpose
+      print('page: ' + page.toString());
+      print('limit: ' + limit.toString());
+      print('offset: ' + offset.toString());
+      print('q: ' + q.toString());
+
       /// FIXME: Bugs in API
       /// In indonesia language
       ///
@@ -62,7 +68,7 @@ class ServiceProvider {
       );
 
       // FIXME: For debugging purpose
-      print(jwt);
+      print('jwt: ' + jwt);
 
       // Return data if status server code == 200
       if (response.statusCode == 200) {
@@ -94,6 +100,10 @@ class ServiceProvider {
         // json.decode(response.body).forEach((element) {
         //   services.add(Service.fromJson(element));
         // });
+
+        // FIXME: For debugging purpose
+        print('first data: ' +
+            (services.length <= 0 ? 'null' : services[0].serviceName));
 
         // Stream updated data
         return services;

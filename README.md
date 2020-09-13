@@ -34,8 +34,9 @@ This project using **Flutter BLoC pattern**. The gist of BLoC is that everything
 * [x] Create models
 * [x] Create resources
 * [x] Create blocs
-* [ ] create UI
-* [ ] Done
+* [x] create UI
+* [x] Done
+* [ ] Publish APK
 
 ## Demo App
 

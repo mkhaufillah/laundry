@@ -25,15 +25,20 @@ class _ListTransactionState extends State<ListTransaction> {
 
   ScrollController _scrollController;
 
+  bool _isStarting;
+
   _makePageLoaded(bool v) {
     if (v) {
-      _startAfter = _transactions[_transactions.length].createdDate;
-      _getTransactionBloc.add(GetTransactionBlocParams(
+      _startAfter = _transactions[_transactions.length - 1].createdDate;
+      _getTransactionBloc.add(
+        GetTransactionBlocParams(
           startAfter: _startAfter,
           customerName: _customerName,
           callback: () {
             _makePageLoaded(false);
-          }));
+          },
+        ),
+      );
     }
     setState(() {
       _loadPage = v;
@@ -43,9 +48,6 @@ class _ListTransactionState extends State<ListTransaction> {
   @override
   void initState() {
     _getTransactionBloc = BlocProvider.of<GetTransactionBloc>(context);
-    _getTransactionBloc.add(GetTransactionBlocParams());
-
-    _transactions = [];
 
     // For pagination
     _scrollController = ScrollController();
@@ -63,12 +65,16 @@ class _ListTransactionState extends State<ListTransaction> {
   @override
   void didChangeDependencies() {
     _startAfter = null;
+    _transactions = [];
+    _getTransactionBloc.add(GetTransactionBlocParams());
+    _getTransactionBloc.add(GetTransactionBlocParams());
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _isStarting = null;
     super.dispose();
   }
 
@@ -91,6 +97,12 @@ class _ListTransactionState extends State<ListTransaction> {
                     _transactions[0].transactionId !=
                         snapshot.transactions[0].transactionId)
                   _transactions = [..._transactions, ...snapshot.transactions];
+
+                // Reset previous pagination
+                if (_isStarting == null) {
+                  _isStarting = true;
+                  _transactions = [];
+                }
 
                 // If result stream success
                 if ((snapshot.status == GlobalStreamStatus.SUCCESS &&
@@ -122,7 +134,7 @@ class _ListTransactionState extends State<ListTransaction> {
                                 fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
-                            'Harga ${e.billTotal.parseToIdrCurrency()}\nPengerjaan ${e.services.length} Layanan',
+                            'Total Harga ${e.billTotal.parseToIdrCurrency()}\n${e.services.length} Layanan',
                             style: TextStyle(
                               color: GlobalData.FOREGROUND_COLOR,
                             ),

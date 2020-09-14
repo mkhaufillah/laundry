@@ -114,6 +114,11 @@ class _ReviewTransactionState extends State<ReviewTransaction> {
                     title: 'Total Tagihan',
                     subtitle: _transaction.billTotal.parseToIdrCurrency(),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      bottom: GlobalData.COMPONENT_MARGIN_PADDING * 7,
+                    ),
+                  ),
                 ],
               ),
             ),
